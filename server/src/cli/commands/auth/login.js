@@ -13,8 +13,7 @@ import yoctoSpinner from "yocto-spinner";
 import * as z from "zod/v4";
 import dotenv from "dotenv";
 
-import {db} from "../../../lib/auth.js";
-import { ObjectId } from "mongodb";
+import {db} from "../../../lib/db.js";
 
 dotenv.config();
 
@@ -348,18 +347,42 @@ export async function whoamiAction(opts) {
     process.exit(1);
   }
 
-  const session = await db.collection("session").findOne({
-    token: token.access_token,
-  });
+  const user = await db
+    .collection("session")
+    .aggregate([
+      {
+        $match: {
+          token: token.access_token,
+        },
+      },
+      {
+        $addFields: {
+          userId: { $toObjectId: "$userId" },
+        },
+      },
+      {
+        $lookup: {
+          from: "user",
+          localField: "userId",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: "$user",
+      },
+      {
+        $replaceRoot: {
+          newRoot: "$user",
+        },
+      },
+    ])
+    .next();
 
-  if (!session) {
+  if (!user) {
     console.log(chalk.red("Session not found. Please login again."));
     process.exit(1);
   }
-
-  const user = await db.collection("user").findOne({
-    _id: new ObjectId(session.userId),
-  });
 
   if (!user) {
     console.log(chalk.red("User not found."));

@@ -22,7 +22,8 @@ const DeviceAuthorizationPage = () => {
 
     try {
       const formattedCode = userCode.trim().replace(/-/g, "").toUpperCase();
-      if (formattedCode!==userCodeUrl) toast.error("Invalid Token");
+      if (formattedCode === undefined || formattedCode !== userCodeUrl)
+        toast.error("Invalid Token");
       const response = await authClient.device({
         query: { user_code: formattedCode },
       });
