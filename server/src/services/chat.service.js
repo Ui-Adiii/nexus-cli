@@ -25,7 +25,6 @@ export class ChatService {
   async addMessage(conversationId, role, content) {
     const contentStr =
       typeof content === "string" ? content : JSON.stringify(content);
-
     const result = await Message.create({
       conversationId,
       role,
@@ -39,6 +38,9 @@ export class ChatService {
     return result;
   }
 
+  async deleteConversation(conversationId) {
+    await Message.deleteByConversation(conversationId);
+  }
   async getMessages(conversationId) {
     const messages = await Message.findByConversation(conversationId);
 

@@ -61,6 +61,8 @@ export const Message = {
   findByConversation: (conversationId) =>
     message.find({ conversationId }).sort({ createdAt: 1 }).toArray(),
 
-  deleteByConversation: (conversationId) =>
+  deleteByConversation: (conversationId) => ( 
     message.deleteMany({ conversationId }),
+    conversation.deleteOne({ id: conversationId })
+  )
 };

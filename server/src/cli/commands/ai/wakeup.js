@@ -88,7 +88,7 @@ const user = await db
   switch (choice) {
     case "chat":
       // console.log(chalk.yellow("Chat mode is currently under development."));
-      await startChat("chat");
+      await startChat();
       break;
     case "tool":
       // await startToolChat();

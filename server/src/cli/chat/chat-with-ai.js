@@ -187,6 +187,7 @@ async function saveMessage(conversationId, role, content) {
   return await chatService.addMessage(conversationId, role, content);
 }
 
+
 // Generate AI response
 async function getAIResponse(conversationId) {
   const spinner = yoctoSpinner({
@@ -278,13 +279,14 @@ async function chatLoop(conversation) {
       },
     });
 
-    if (isCancel(userInput)) {
+   if (isCancel(userInput)) {
       const exitBox = boxen(chalk.yellow("Chat session ended. Goodbye! 👋"), {
         padding: 1,
         margin: 1,
         borderStyle: "round",
         borderColor: "yellow",
       });
+
       console.log(conversation.id);
 
       console.log(exitBox);
@@ -304,19 +306,26 @@ async function chatLoop(conversation) {
     }
 
     // Save user message
-    await saveMessage(conversation.id, "user", userInput);
+    const userMessage = await saveMessage(conversation.id, "user", userInput);
 
     // Get message count
     const messages = await chatService.getMessages(conversation.id);
 
     // Generate AI response
     const aiResponse = await getAIResponse(conversation.id);
-
     // Save assistant response
-    await saveMessage(conversation.id, "assistant", aiResponse);
+    const assistantMessage = await saveMessage(
+      conversation.id,
+      "assistant",
+      aiResponse,
+    );
 
     // Update title for first message
-    await updateConversationTitle(conversation.id, userInput, messages.length);
+    const updatedTitle = await updateConversationTitle(
+      conversation.id,
+      userInput,
+      messages.length,
+    );
   }
 }
 
