@@ -5,7 +5,7 @@ import { getStoredToken } from "../auth/login.js";
 import { select } from "@clack/prompts";
 import { startChat } from "../../chat/chat-with-ai.js";
 import { startToolChat } from "../../chat/chat-with-ai-tool.js";
-// import { startAgentChat } from "../../chat/chat-with-ai-agent.js";
+import { startAgentChat } from "../../chat/chat-with-ai-agent.js";
 
 
 import { db } from "../../../lib/db.js"
@@ -87,14 +87,13 @@ const user = await db
 
   switch (choice) {
     case "chat":
-      // console.log(chalk.yellow("Chat mode is currently under development."));
       await startChat();
       break;
     case "tool":
       await startToolChat();
       break;
     case "agent":
-      // await startAgentChat();
+      await startAgentChat();
       break;
   }
 };
