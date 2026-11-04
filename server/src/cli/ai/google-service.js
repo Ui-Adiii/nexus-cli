@@ -108,28 +108,28 @@ export class AIService {
     return result.content;
   }
 
-  // /**
-  //  * Generate structured output using a zod schema
-  //  * @param {Object} schema - Zod Schema
-  //  * @param {string} prompt - Prompt for generation
-  //  * @returns {Promise<Object>} Parsed object matching the schema
-  //  *
-  //  */
-  // async generateStructured(schema, prompt) {
-  //   try {
-  //     const result = await generateObject({
-  //       model: this.model,
-  //       schema: schema,
-  //       prompt: prompt,
-  //     });
+  /**
+   * Generate structured output using a zod schema
+   * @param {Object} schema - Zod Schema
+   * @param {string} prompt - Prompt for generation
+   * @returns {Promise<Object>} Parsed object matching the schema
+   *
+   */
+  async generateStructured(schema, prompt) {
+    try {
+      const result = await generateObject({
+        model: this.model,
+        schema: schema,
+        prompt: prompt,
+      });
 
-  //     return result.object;
-  //   } catch (error) {
-  //     console.error(
-  //       chalk.red("AI Structured Generation Error:"),
-  //       error.message,
-  //     );
-  //     throw error;
-  //   }
-  // }
+      return result.object;
+    } catch (error) {
+      console.error(
+        chalk.red("AI Structured Generation Error:"),
+        error.message,
+      );
+      throw error;
+    }
+  }
 }

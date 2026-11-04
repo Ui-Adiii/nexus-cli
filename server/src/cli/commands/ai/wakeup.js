@@ -4,7 +4,7 @@ import yoctoSpinner from "yocto-spinner";
 import { getStoredToken } from "../auth/login.js";
 import { select } from "@clack/prompts";
 import { startChat } from "../../chat/chat-with-ai.js";
-// import { startToolChat } from "../../chat/chat-with-ai-tool.js";
+import { startToolChat } from "../../chat/chat-with-ai-tool.js";
 // import { startAgentChat } from "../../chat/chat-with-ai-agent.js";
 
 
@@ -91,7 +91,7 @@ const user = await db
       await startChat();
       break;
     case "tool":
-      // await startToolChat();
+      await startToolChat();
       break;
     case "agent":
       // await startAgentChat();
